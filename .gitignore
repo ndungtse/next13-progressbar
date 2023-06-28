@@ -1,0 +1,26 @@
+
+# Optional eslint cache
+.eslintcache
+
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+
+# next.js build output
+.next
+
+*node_modules
+.idea
+.DS_Store
+dist
+
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*

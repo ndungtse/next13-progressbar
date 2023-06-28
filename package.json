@@ -1,0 +1,57 @@
+{
+  "name": "next13-progressbar",
+  "version": "0.0.1",
+  "description": "Nprogress for Next.js 13 with app dir support",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup",
+    "prepack": "npm run build",
+    "lint": "eslint --fix --cache src/",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "next": ">= 13.0.0",
+    "react": ">= 18.0.0"
+  },
+  "dependencies": {
+    "@types/nprogress": "^0.2.0",
+    "nprogress": "^0.2.0",
+    "prop-types": "^15.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.2",
+    "@types/react": "^18.2.14",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "eslint": "^8.43.0",
+    "next": "^13.4.7",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NdungutseCharles103/next13-progressbar.git"
+  },
+  "keywords": [
+    "Next13progress",
+    "Nprogress",
+    "Next",
+    "Next13",
+    "Next.js",
+    "Progressbar",
+    "NextAppDir"
+  ],
+  "author": "Apal Shah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NdungutseCharles103/next13-progressbar/issues"
+  },
+  "homepage": "https://github.com/NdungutseCharles103/next13-progressbar#readme",
+  "files": [
+    "dist/**/*.js*",
+    "dist/**/*.mjs*",
+    "dist/**/*.d*"
+  ]
+}
