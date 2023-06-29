@@ -1,15 +1,15 @@
+'use client';
 /**
  *
  * NProgress
  *
  */
 
-import Router from 'next/router';
 import * as NProgress from 'nprogress';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 
-export interface NextNProgressProps {
+export interface Next13ProgressProps {
   /**
    * The color of the bar.
    * @default "#29D"
@@ -54,79 +54,23 @@ export interface NextNProgressProps {
   transformCSS?: (css: string) => JSX.Element;
 }
 
-const NextNProgress = ({
+const Next13Progress = ({
   color = '#29D',
   startPosition = 0.3,
-  stopDelayMs = 200,
+  // stopDelayMs = 200,
   height = 3,
-  showOnShallow = true,
+  // showOnShallow = true,
   options,
   nonce,
   transformCSS = (css) => <style nonce={nonce}>{css}</style>,
-}: NextNProgressProps) => {
-  let timer: NodeJS.Timeout | null = null;
-
+}: Next13ProgressProps) => {
   React.useEffect(() => {
-    if (options) {
-      NProgress.configure(options);
-    }
-    Router.events.on('routeChangeStart', routeChangeStart);
-    Router.events.on('routeChangeComplete', routeChangeEnd);
-    Router.events.on('routeChangeError', routeChangeError);
-    return () => {
-      Router.events.off('routeChangeStart', routeChangeStart);
-      Router.events.off('routeChangeComplete', routeChangeEnd);
-      Router.events.off('routeChangeError', routeChangeError);
-    };
+    // show progress bar for the initial load.
+    NProgress.configure({ ...options, showSpinner: false });
+    NProgress.set(startPosition);
+    NProgress.start();
+    NProgress.inc(); // trick to show it right away
   }, []);
-
-  const routeChangeStart = (
-    _: string,
-    {
-      shallow,
-    }: {
-      shallow: boolean;
-    }
-  ) => {
-    if (!shallow || showOnShallow) {
-      NProgress.set(startPosition);
-      NProgress.start();
-    }
-  };
-
-  const routeChangeEnd = (
-    _: string,
-    {
-      shallow,
-    }: {
-      shallow: boolean;
-    }
-  ) => {
-    if (!shallow || showOnShallow) {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        NProgress.done(true);
-      }, stopDelayMs);
-    }
-  };
-
-  const routeChangeError = (
-    _err: Error,
-    _url: string,
-    {
-      shallow,
-    }: {
-      shallow: boolean;
-    }
-  ) => {
-    if (!shallow || showOnShallow) {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        NProgress.done(true);
-      }, stopDelayMs);
-    }
-  };
-
   return transformCSS(`
     #nprogress {
       pointer-events: none;
@@ -197,7 +141,7 @@ const NextNProgress = ({
   `);
 };
 
-NextNProgress.propTypes = {
+Next13Progress.propTypes = {
   color: PropTypes.string,
   startPosition: PropTypes.number,
   stopDelayMs: PropTypes.number,
@@ -208,4 +152,4 @@ NextNProgress.propTypes = {
   transformCSS: PropTypes.func,
 };
 
-export default React.memo(NextNProgress);
+export default React.memo(Next13Progress);

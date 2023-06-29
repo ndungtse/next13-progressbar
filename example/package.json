@@ -19,5 +19,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.1.5"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3"
   }
 }

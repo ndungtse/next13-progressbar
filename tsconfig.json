@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "jsx": "react",
     "target": "esnext",
     "module": "commonjs",
@@ -13,10 +14,14 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "lib": ["es2021"],
+    "lib": [
+      "es2021"
+    ],
     "skipLibCheck": true,
     "noEmit": true,
     "outDir": "dist"
   },
-  "files": ["src/index.tsx"]
+  "files": [
+    "src/index.ts"
+  ]
 }

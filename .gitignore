@@ -12,7 +12,7 @@
 # next.js build output
 .next
 
-*node_modules
+node_modules
 .idea
 .DS_Store
 dist

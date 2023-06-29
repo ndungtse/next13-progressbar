@@ -1,8 +1,9 @@
 {
   "name": "next13-progressbar",
-  "version": "0.0.1",
-  "description": "Nprogress for Next.js 13 with app dir support",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "A ProgressBar for next.js 13 with app directory ",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup",
     "prepack": "npm run build",
@@ -35,13 +36,10 @@
     "url": "git+https://github.com/NdungutseCharles103/next13-progressbar.git"
   },
   "keywords": [
-    "Next13progress",
     "Nprogress",
     "Next",
-    "Next13",
     "Next.js",
-    "Progressbar",
-    "NextAppDir"
+    "Progressbar"
   ],
   "author": "Apal Shah",
   "license": "MIT",
@@ -53,5 +51,6 @@
     "dist/**/*.js*",
     "dist/**/*.mjs*",
     "dist/**/*.d*"
-  ]
+  ],
+  "packageManager": "yarn@3.2.4"
 }
