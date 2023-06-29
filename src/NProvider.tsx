@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProgressBar, { Next13ProgressProps } from './ProgressBar';
 import { NavigationEvents } from './NavigationEvents';
+import { usePathname } from 'next/navigation';
 // import { usePathname } from 'next/navigation';
 
 export interface NProviderProps extends Next13ProgressProps {
@@ -14,13 +15,23 @@ interface NProviderState {
 
 const NPContext = React.createContext<NProviderState>({
   showProgressBar: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setShowProgressBar: () => {},
 });
 
 export const NProvider = (props: NProviderProps) => {
   const [showProgressBar, setShowProgressBar] = React.useState(false);
-  // const pathname = usePathname();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const anchors = document.querySelectorAll('a');
+    anchors.forEach((anchor) => {
+      anchor.addEventListener('click', () => {
+        if (pathname !== anchor.href) {
+          setShowProgressBar(true);
+        }
+      });
+    });
+  }, []);
 
   const progressProps = { ...props };
   delete progressProps.children;
@@ -33,4 +44,4 @@ export const NProvider = (props: NProviderProps) => {
   );
 };
 
-export const useApp = () => React.useContext(NPContext);
+export const useNProgress = () => React.useContext(NPContext);

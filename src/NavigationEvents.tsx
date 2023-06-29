@@ -1,11 +1,11 @@
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { useApp } from './NProvider';
+import { useNProgress } from './NProvider';
 
 export function NavigationEvents() {
   const pathname = usePathname();
-  const { setShowProgressBar } = useApp();
+  const { setShowProgressBar } = useNProgress();
 
   useEffect(() => {
     setShowProgressBar(false);

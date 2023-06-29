@@ -44,11 +44,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-Use `Link` component form `next13-progressbar` in your entire app instead of native `next/link` to navigate with progressbar
+By default all `a` tags are handled by `next/link` so you don't need to do anything.
 
 ```jsx
-'use client';
-import { Link } from 'next13-progressbar';
+import Link from 'next/link';
 
 export default function NavBar() {
   return (
@@ -61,8 +60,18 @@ export default function NavBar() {
 }
 ```
 
+But if you want to use `Link` component from `next13-progressbar` you can do it by importing it from `next13-progressbar` and use it as you would use `next/link` component.
+
+```jsx
+'use client';
+import { Link } from 'next13-progressbar';
+
+// use it as you would use next/link
+```
+
 And you are done. You can now customize you progress bar as you need!
-⚠️ Note: You must use `Link` component inside client components only.
+
+⚠️ Note: You must use `next13-progressbar` `Link` component inside client components only.
 
 ### Default Config
 

@@ -2,7 +2,7 @@
 import Link, { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import { useApp } from './NProvider';
+import { useNProgress } from './NProvider';
 
 export interface PLinkProps extends LinkProps {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ export interface PLinkProps extends LinkProps {
  */
 export const CLink = (props: PLinkProps) => {
   const pathname = usePathname();
-  const { setShowProgressBar } = useApp();
+  const { setShowProgressBar } = useNProgress();
 
   const handleShowProgressBar = () => {
     if (pathname !== props.href) {

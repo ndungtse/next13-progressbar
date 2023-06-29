@@ -1,6 +1,6 @@
 'use client';
-import { Link } from 'next13-progressbar';
 import React from 'react';
+import Link from 'next/link';
 
 const NavBar = () => {
   return (

@@ -1,14 +1,25 @@
 {
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
-    "eol-last": ["error", "always"],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "eol-last": [
+      "error",
+      "always"
+    ],
     "comma-dangle": [
       "error",
       {
@@ -19,13 +30,22 @@
         "functions": "never"
       }
     ],
-    "arrow-parens": ["error", "always"],
-    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
+    "no-trailing-spaces": [
+      "error",
+      {
+        "skipBlankLines": true
+      }
+    ],
     "prefer-const": "warn",
     "accessor-pairs": "off",
     "no-async-promise-executor": "off",
     "no-unused-vars": "off",
     "node/no-missing-require": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "no-console": "warn"
   }
 }

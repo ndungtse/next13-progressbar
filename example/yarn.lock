@@ -1158,11 +1158,6 @@ human-signals@^4.3.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-4.3.1.tgz#ab7f811e851fca97ffbd2c1fe9a958964de321b2"
   integrity sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==
 
-husky@^8.0.3:
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.3.tgz#4936d7212e46d1dea28fef29bb3a108872cd9184"
-  integrity sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==
-
 ignore@^5.2.0:
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
@@ -1511,10 +1506,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-next13-progressbar@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/next13-progressbar/-/next13-progressbar-0.1.0.tgz#81310c50104aebefd0e379fcd53fa538c797fa65"
-  integrity sha512-BK7E3VM4JvDy0KSKT4sgcss+LIN8UmfW2CzuN2Q3n/mE5K/f3Jv5BKLDuY1a+3HCjhHrEfhL1izgFghzlk86aw==
+next13-progressbar@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/next13-progressbar/-/next13-progressbar-0.1.2.tgz#4b7c846908c548dcb6948bb33120d81ef65c589c"
+  integrity sha512-6r3J/GFeTcVLkkBd615sutRUR1oLP341VLbXv+54S+7qzoB5q66pBMNq2VI5cT8hXjSKvVvHeSadUCpomFG4pw==
   dependencies:
     "@types/nprogress" "^0.2.0"
     nprogress "^0.2.0"
