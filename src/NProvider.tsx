@@ -25,7 +25,12 @@ export const NProvider = (props: NProviderProps) => {
   useEffect(() => {
     const anchors = document.querySelectorAll('a');
     anchors.forEach((anchor) => {
-      anchor.addEventListener('click', () => {
+      anchor.addEventListener('click', (e) => {
+        if(anchor.target === '_blank') return;
+        // add prev onclick
+        if (anchor.onclick) {
+          anchor.onclick(e);
+        }
         if (pathname !== anchor.href) {
           setShowProgressBar(true);
         }

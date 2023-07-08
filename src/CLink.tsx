@@ -15,6 +15,9 @@ export interface PLinkProps extends LinkProps {
 export const CLink = (props: PLinkProps) => {
   const pathname = usePathname();
   const { setShowProgressBar } = useNProgress();
+  const newProps = { ...props };
+  delete newProps.children;
+  delete newProps.onClick;
 
   const handleShowProgressBar = () => {
     if (pathname !== props.href) {
@@ -23,7 +26,7 @@ export const CLink = (props: PLinkProps) => {
   };
 
   return (
-    <Link onClick={handleShowProgressBar} {...props}>
+    <Link onClick={handleShowProgressBar} {...newProps}>
       {props.children}
     </Link>
   );
