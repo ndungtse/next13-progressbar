@@ -13,8 +13,8 @@ jobs:
         with:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm run build
+      - run: yarn
+      - run: yarn run build
       - name: Publish package to NPM
         run: npm publish
         env:
