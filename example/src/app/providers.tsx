@@ -1,6 +1,10 @@
 'use client';
 
-import { Next13ProgressBar } from '../../../dist';
+// use this for local testing
+// import { Next13ProgressBar } from '../../../dist';
+
+// this for deploying example
+import { Next13ProgressBar } from 'next13-progressbar';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (

@@ -149,8 +149,10 @@ export const Next13ProgressBar = React.memo(
 
 export function useRouter() {
   const router = useNextRouter();
+  const pathname = usePathname();
 
   function push(href: string, options?: NavigateOptions) {
+    if (href === pathname) return Promise.resolve(true);
     NProgress.start();
     return router.push(href, options);
   }
