@@ -1,9 +1,14 @@
 'use client';
-import React from 'react';
-import { NProvider } from 'next13-progressbar';
+
+import { Next13ProgressBar } from '../../../dist';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  return <NProvider color="#fff">{children}</NProvider>;
+  return (
+    <>
+      {children}
+      <Next13ProgressBar height="4px" color="#0A2FFF" options={{ showSpinner: true }} showOnShallow />
+    </>
+  );
 };
 
 export default Providers;

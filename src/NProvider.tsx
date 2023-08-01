@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import ProgressBar, { Next13ProgressProps } from './ProgressBar';
+import ProgressBar from './ProgressBar';
 import { NavigationEvents } from './NavigationEvents';
 import { usePathname } from 'next/navigation';
-// import { usePathname } from 'next/navigation';
+import { Next13ProgressProps } from '.';
 
 export interface NProviderProps extends Next13ProgressProps {
   children: React.ReactNode;
@@ -18,6 +18,11 @@ const NPContext = React.createContext<NProviderState>({
   setShowProgressBar: () => {},
 });
 
+/**
+ * @deprecated will be removed in next major version, use AppProgressBar component instead
+ * @param props
+ * @see https://github.com/NdungutseCharles103/next13-progressbar#readme
+ */
 export const NProvider = (props: NProviderProps) => {
   const [showProgressBar, setShowProgressBar] = React.useState(false);
   const pathname = usePathname();
@@ -26,7 +31,7 @@ export const NProvider = (props: NProviderProps) => {
     const anchors = document.querySelectorAll('a');
     anchors.forEach((anchor) => {
       anchor.addEventListener('click', (e) => {
-        if(anchor.target === '_blank') return;
+        if (anchor.target === '_blank') return;
         // add prev onclick
         if (anchor.onclick) {
           anchor.onclick(e);

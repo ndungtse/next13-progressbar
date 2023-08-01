@@ -8,68 +8,25 @@
 import * as NProgress from 'nprogress';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
-
-export interface Next13ProgressProps {
-  /**
-   * The color of the bar.
-   * @default "#29D"
-   */
-  color?: string;
-  /**
-   * The start position of the bar.
-   * @default 0.3
-   */
-  startPosition?: number;
-  /**
-   * The stop delay in milliseconds.
-   * @default 200
-   */
-  stopDelayMs?: number;
-  /**
-   * The height of the bar.
-   * @default 3
-   */
-  height?: number;
-  /**
-   * Whether to show the bar on shallow routes.
-   * @default true
-   */
-  showOnShallow?: boolean;
-  /**
-   * The other NProgress configuration options to pass to NProgress.
-   * @default null
-   */
-  options?: Partial<NProgress.NProgressOptions>;
-  /**
-   * The nonce attribute to use for the `style` tag.
-   * @default undefined
-   */
-  nonce?: string;
-
-  /**
-   * Use your custom CSS tag instead of the default one.
-   * This is useful if you want to use a different style or minify the CSS.
-   * @default (css) => <style nonce={nonce}>{css}</style>
-   */
-  transformCSS?: (css: string) => JSX.Element;
-}
+import { Next13ProgressProps } from '.';
 
 const Next13Progress = ({
   color = '#29D',
   startPosition = 0.3,
-  // stopDelayMs = 200,
   height = 3,
-  // showOnShallow = true,
   options,
   nonce,
   transformCSS = (css) => <style nonce={nonce}>{css}</style>,
 }: Next13ProgressProps) => {
   React.useEffect(() => {
     // show progress bar for the initial load.
-    NProgress.configure({ ...options, showSpinner: false });
+    NProgress.configure({ ...options });
     NProgress.set(startPosition);
     NProgress.start();
     NProgress.inc(); // trick to show it right away
+    return () => {
+      NProgress.done();
+    };
   }, []);
   return transformCSS(`
     #nprogress {

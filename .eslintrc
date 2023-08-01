@@ -1,25 +1,14 @@
 {
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "eol-last": [
-      "error",
-      "always"
-    ],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "eol-last": ["error", "always"],
     "comma-dangle": [
       "error",
       {
@@ -30,10 +19,7 @@
         "functions": "never"
       }
     ],
-    "arrow-parens": [
-      "error",
-      "always"
-    ],
+    "arrow-parens": ["error", "always"],
     "no-trailing-spaces": [
       "error",
       {
@@ -46,6 +32,7 @@
     "no-unused-vars": "off",
     "node/no-missing-require": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "no-console": "warn"
   }
 }

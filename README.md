@@ -14,15 +14,26 @@ npm i next13-progressbar
 
 ## How to use?
 
-After installing the package, create `providers.tsx` file in app directory to handle contexts and mark it `use client`. see [contexts in app dir](https://nextjs.org/docs/getting-started/react-essentials#context) and import `NProvider;
+⚠️ **_Note_** : This docs are for versions `>=1.0.0` only. For the older versions check branch versions's Readme.
+
+After installing the package, create `providers.tsx` file in app directory to handle contexts and mark it `use client`. see [contexts in app dir](https://nextjs.org/docs/getting-started/react-essentials#context) and import `Next13ProgressBar;
 
 ```jsx
 'use client';
 import React from 'react';
-import { NProvider } from 'next13-progressbar';
+import { Next13ProgressBar } from 'next13-progressbar';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
-  return <NProvider color="#fff">{children}</NProvider>;
+  return (
+    <>
+      {children}
+      return (<>
+        {children}
+        <Next13ProgressBar height="4px" color="#0A2FFF" options={{ showSpinner: true }} showOnShallow />
+      </>
+      );
+    </>
+  );
 };
 
 export default Providers;
@@ -48,41 +59,32 @@ By default all `a` tags are handled by `next/link` so you don't need to do anyth
 
 ```jsx
 import Link from 'next/link';
+import { useRouter } from 'next13-progressbar';
 
-export default function NavBar() {
+const NavBar = () => {
+  const router = useRouter();
   return (
     <div className="navbar">
       <Link href={'/'}>Home</Link>
       <Link href={'/about'}>About</Link>
       <Link href={'/contact'}>Contact</Link>
+      <button onClick={() => router.push('/button-link')}>ButtonLink</button>
     </div>
   );
-}
+};
 ```
-
-But if you want to use `Link` component from `next13-progressbar` you can do it by importing it from `next13-progressbar` and use it as you would use `next/link` component.
-
-```jsx
-'use client';
-import { Link } from 'next13-progressbar';
-
-// use it as you would use next/link
-```
-
-And you are done. You can now customize you progress bar as you need!
-
-⚠️ Note: You must use `next13-progressbar` `Link` component inside client components only.
 
 ### Default Config
 
-If no props are passed to `<NProvider />`, below is the default configuration applied.
+If no props are passed to `<Next13ProgressBar />`, below is the default configuration applied.
 
 ```jsx
-<NProvider color="#29D" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+<Next13ProgressBar color="#29D" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
 ```
 
 - `color`: to change the default color of progressbar. You can also use `rgb(,,)` or `rgba(,,,)`.
 - `startPosition`: to set the default starting position : `0.3 = 30%`.
+- `delay`: time for delay to start progressbar in `ms`.
 - `stopDelayMs`: time for delay to stop progressbar in `ms`.
 - `height`: height of progressbar in `px`.
 - `showOnShallow`: You can choose whether you want the progressbar to be displayed if you're using shallow routing. It takes a boolean. Learn more about shallow routing [in Next.js docs](https://nextjs.org/docs/routing/shallow-routing).
@@ -94,30 +96,26 @@ If no props are passed to `<NProvider />`, below is the default configuration ap
 We use internal css in this package. If you are using csp, you can add nonce to the `<style>` tag by providing `nonce` prop to `<NProvider />` component.
 
 ```jsx
-<NProvider nonce="my-nonce" />
+<Next13ProgressBar nonce="my-nonce" />
 ```
 
 #### Custom CSS
 
-You can use `transformCSS` prop to pass custom css.
-**Note:** You must return a `JSX.Element` from the function.
+You can pass custom css to the progressbar by using `style` prop.
 
 ```jsx
-<NProvider
-  transformCSS={(css) => {
-    // css is the default css string. You can modify it and return it or return your own css.
-    return <style>{css}</style>;
-  }}
+<Next13ProgressBar
+  style={`
+    #nprogress {
+      pointer-events: none;
+    }
+  `}
 />
 ```
 
-#### Other Configs
+### Older Versions
 
-You can use [other configurations](https://github.com/rstacruz/nprogress#configuration) which NProgress provides by adding a JSON in `options` props.
-
-```jsx
-<NProvider options={{ easing: 'ease', speed: 500 }} />
-```
+Check Branches with `v` prefix for older docs of the package.
 
 ## Contributing
 
