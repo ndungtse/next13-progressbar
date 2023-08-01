@@ -1,7 +1,8 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from '../../../dist';
+// import { useRouter } from '../../../dist';
+import { useRouter } from 'next13-progressbar';
 
 const NavBar = () => {
   const router = useRouter();
