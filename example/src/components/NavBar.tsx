@@ -11,7 +11,9 @@ const NavBar = () => {
       <Link href={'/'}>Home</Link>
       <Link href={'/about'}>About</Link>
       <Link href={'/contact'}>Contact</Link>
-      <button onClick={() => router.push('/button-link')}>ButtonLink</button>
+      <button onClick={() => router.push('/button-link#34')}>ButtonLink</button>
+      <Link href={'#'}>HashLink</Link>
+      <Link href={'/contact/#44'}>HashLink1</Link>
     </div>
   );
 };

@@ -115,11 +115,16 @@ export const Next13ProgressBar = React.memo(
         // Skip anchors with target="_blank"
         if (anchorElement.target === '_blank') return;
 
+        // Skip anchors with download attribute
+        if (anchorElement.hasAttribute('download')) return;
+
+        // target url without hash removed
         const targetUrl = new URL(anchorElement.href);
         const currentUrl = new URL(location.href);
+        const isSameUrl = targetUrl?.pathname === currentUrl?.pathname;
 
-        if (showOnShallow && targetUrl?.href === currentUrl?.href) return;
-        if (targetUrl?.href === currentUrl?.href) return;
+        if (showOnShallow && isSameUrl) return;
+        if (isSameUrl) return;
 
         startProgress();
       };
@@ -152,7 +157,8 @@ export function useRouter() {
   const pathname = usePathname();
 
   function push(href: string, options?: NavigateOptions) {
-    if (href === pathname) return Promise.resolve(true);
+    const targetUrl = new URL(href, location.href);
+    if (targetUrl.pathname === pathname) return Promise.resolve(true);
     NProgress.start();
     return router.push(href, options);
   }
