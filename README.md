@@ -4,7 +4,7 @@ A simple Next.js progressbar component using [NProgress](http://ricostacruz.com/
 
 <!-- > [I've created this Blog to help you create your own progressbar](https://gosink.in/next-js-make-your-own-progress-bar-indicator-component-easily/) -->
 
-**Demo**: [https://demo-next13-progressbar.vercel.app](https://demo-next13-progressbar.vercel.app/)
+**Demo**: [https://next13-progressbar.vercel.app/](https://next13-progressbar.vercel.app/)
 
 ## How to install?
 
