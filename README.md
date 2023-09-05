@@ -14,7 +14,7 @@ npm i next13-progressbar
 
 ## How to use?
 
-⚠️ **_Note_** : This docs are for versions `>=1.0.0` only. For the older versions check branch versions's Readme.
+⚠️ **_Note_** : This docs are for versions `>=1.0.0` only. For the older versions check tags versions tree's Readme of the older version.
 
 After installing the package, create `providers.tsx` file in app directory to handle contexts and mark it `use client`. see [contexts in app dir](https://nextjs.org/docs/getting-started/react-essentials#context) and import `Next13ProgressBar;
 
