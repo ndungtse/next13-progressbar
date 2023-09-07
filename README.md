@@ -116,6 +116,7 @@ You can pass custom css to the progressbar by using `style` prop.
 ### Older Versions
 
 Check Branches with `v` prefix for older docs of the package.
+If not found check tags versions tree's Readme of the older version.
 
 ## Contributing
 
@@ -124,3 +125,8 @@ Any Contribution of any kind are appreciated. You can start by forking this repo
 ## Author
 
 - [Ndungutse Charles](https://github.com/NdungutseCharles103)
+
+## Support
+
+Your support matters. It pushes me to do more Open Source contributions and give back to the community.
+<a href="https://www.buymeacoffee.com/ndungutse" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
