@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import NProgress from 'nprogress';
 import { usePathname, useSearchParams, useRouter as useNextRouter } from 'next/navigation';
-import { NavigateOptions } from 'next/dist/shared/lib/app-router-context';
 import { Next13ProgressProps } from '.';
+import { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
 
@@ -122,6 +122,9 @@ export const Next13ProgressBar = React.memo(
         const targetUrl = new URL(anchorElement.href);
         const currentUrl = new URL(location.href);
         const isSameUrl = targetUrl?.pathname === currentUrl?.pathname;
+
+        // detect ctrl/cmd click
+        if (event.metaKey || event.ctrlKey) return;
 
         if (showOnShallow && isSameUrl) return;
         if (isSameUrl) return;

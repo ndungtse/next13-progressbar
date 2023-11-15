@@ -1,6 +1,6 @@
 # Next.js 13 Progressbar
 
-A simple Next.js progressbar component using [NProgress](http://ricostacruz.com/nprogress/) with support of next.js 13 app dir.
+A simple Next.js progressbar component using [NProgress](http://ricostacruz.com/nprogress/) with support of next.js 13 and later app dir.
 
 <!-- > [I've created this Blog to help you create your own progressbar](https://gosink.in/next-js-make-your-own-progress-bar-indicator-component-easily/) -->
 
@@ -16,7 +16,7 @@ npm i next13-progressbar
 
 ⚠️ **_Note_** : This docs are for versions `>=1.0.0` only. For the older versions check tags versions tree's Readme of the older version.
 
-After installing the package, create `providers.tsx` file in app directory to handle contexts and mark it `use client`. see [contexts in app dir](https://nextjs.org/docs/getting-started/react-essentials#context) and import `Next13ProgressBar;
+After installing the package, create `providers.tsx` file in app directory to handle contexts and mark it `use client`. see [contexts in app dir](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#using-context-providers) and import `Next13ProgressBar;
 
 ```jsx
 'use client';

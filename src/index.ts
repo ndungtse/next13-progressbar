@@ -1,6 +1,5 @@
 export * from './NProvider';
 import * as NProgress from 'nprogress';
-import { CLink } from './CLink';
 
 export interface Next13ProgressProps {
   /**
@@ -53,5 +52,4 @@ export interface Next13ProgressProps {
   style?: string;
 }
 
-export { CLink as Link };
 export { Next13ProgressBar, useRouter } from './AppProgressBar';

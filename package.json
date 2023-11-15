@@ -1,7 +1,7 @@
 {
   "name": "next13-progressbar",
-  "version": "1.0.3",
-  "description": "A ProgressBar for next.js 13 with app directory ",
+  "version": "1.1.0",
+  "description": "A ProgressBar for next.js >=13 with app directory ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -26,7 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "eslint": "^8.43.0",
     "husky": "^8.0.3",
-    "next": "^13.4.7",
+    "next": "^14.0.0",
     "prettier": "^2.8.8",
     "react": "^18.2.0",
     "tsup": "^7.1.0",
@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NdungutseCharles103/next13-progressbar.git"
+    "url": "git+https://github.com/ndungtse/next13-progressbar.git"
   },
   "keywords": [
     "Nprogress",
@@ -45,9 +45,9 @@
   "author": "Apal Shah",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/NdungutseCharles103/next13-progressbar/issues"
+    "url": "https://github.com/ndungtse/next13-progressbar/issues"
   },
-  "homepage": "https://github.com/NdungutseCharles103/next13-progressbar#readme",
+  "homepage": "https://github.com/ndungtse/next13-progressbar#readme",
   "files": [
     "dist/**/*.js*",
     "dist/**/*.mjs*",
