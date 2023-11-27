@@ -1507,9 +1507,9 @@ natural-compare@^1.4.0:
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
 next13-progressbar@latest:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/next13-progressbar/-/next13-progressbar-1.0.2.tgz#6353a71a47b6aedfa98744bf11ce24aa432ff9e4"
-  integrity sha512-Cd5IHpXfIwRGYmQ6eLJzstC41NyU6oAE8TSm5SNR0RE2DjHz/ZEVvGBSolA/ctaDhjF08Y0h0vp7/XKkC3J+Ag==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/next13-progressbar/-/next13-progressbar-1.1.0.tgz#6092fe7539a72e9683afcfdb2630d905a0264d31"
+  integrity sha512-UOCTLqaJhQfoh/SHAJu1Masrd7sKShV0rf4ExxHswjc3t2JF82UZTANaevyad31ldujVFSShkx7+fSnbC+Hm9Q==
   dependencies:
     "@types/nprogress" "^0.2.0"
     nprogress "^0.2.0"

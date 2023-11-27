@@ -123,8 +123,8 @@ export const Next13ProgressBar = React.memo(
         const currentUrl = new URL(location.href);
         const isSameUrl = targetUrl?.pathname === currentUrl?.pathname;
 
-        // detect ctrl/cmd click
-        if (event.metaKey || event.ctrlKey) return;
+        // detect ctrl/cmd option/alt shift click
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
         if (showOnShallow && isSameUrl) return;
         if (isSameUrl) return;
