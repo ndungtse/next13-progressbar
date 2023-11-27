@@ -52,6 +52,5 @@
     "dist/**/*.js*",
     "dist/**/*.mjs*",
     "dist/**/*.d*"
-  ],
-  "packageManager": "yarn@3.2.4"
+  ]
 }
