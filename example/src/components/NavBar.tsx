@@ -14,6 +14,7 @@ const NavBar = () => {
       <button onClick={() => router.push('/button-link#34')}>ButtonLink</button>
       <Link href={'#'}>HashLink</Link>
       <Link href={'/contact/#44'}>HashLink1</Link>
+      <button onClick={() => router.replace('/about')}>Replace</button>
     </div>
   );
 };

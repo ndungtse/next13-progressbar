@@ -166,5 +166,12 @@ export function useRouter() {
     return router.push(href, options);
   }
 
-  return { ...router, push };
+  function replace(href: string, options?: NavigateOptions) {
+    const targetUrl = new URL(href, location.href);
+    if (targetUrl.pathname === pathname) return Promise.resolve(true);
+    NProgress.start();
+    return router.replace(href, options);
+  }
+
+  return { ...router, push, replace };
 }
