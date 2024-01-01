@@ -121,7 +121,11 @@ export const Next13ProgressBar = React.memo(
         // target url without hash removed
         const targetUrl = new URL(anchorElement.href);
         const currentUrl = new URL(location.href);
-        const isSameUrl = targetUrl?.pathname === currentUrl?.pathname;
+
+        // check if search params changed
+        const hasSearchParams = targetUrl?.searchParams?.toString() !== currentUrl?.searchParams?.toString();
+        const paramsChanged = hasSearchParams && targetUrl?.search !== currentUrl?.search;
+        const isSameUrl = targetUrl?.pathname === currentUrl?.pathname && !paramsChanged;
 
         // detect ctrl/cmd option/alt shift click
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -161,7 +165,10 @@ export function useRouter() {
 
   function push(href: string, options?: NavigateOptions) {
     const targetUrl = new URL(href, location.href);
-    if (targetUrl.pathname === pathname) return Promise.resolve(true);
+    const currentUrl = new URL(location.href);
+    const hasSearchParams = targetUrl?.searchParams?.toString() !== currentUrl?.searchParams?.toString();
+    const paramsChanged = hasSearchParams && targetUrl?.search !== currentUrl?.search;
+    if (targetUrl.pathname === pathname && !paramsChanged) return Promise.resolve(true);
     NProgress.start();
     return router.push(href, options);
   }
