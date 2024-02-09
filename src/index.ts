@@ -1,5 +1,6 @@
-export * from './NProvider';
 import * as NProgress from 'nprogress';
+import { Next13ProgressBar as ProgressBar, useRouter } from './AppProgressBar';
+import withSuspense from './WithSuspense';
 
 export interface Next13ProgressProps {
   /**
@@ -52,4 +53,7 @@ export interface Next13ProgressProps {
   style?: string;
 }
 
-export { Next13ProgressBar, useRouter } from './AppProgressBar';
+const Next13ProgressBar = withSuspense(ProgressBar);
+export { Next13ProgressBar, useRouter };
+
+export default Next13ProgressBar;
