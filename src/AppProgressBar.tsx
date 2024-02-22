@@ -112,8 +112,9 @@ export const Next13ProgressBar = React.memo(
       const handleAnchorClick = (event: MouseEvent) => {
         const anchorElement = event.currentTarget as HTMLAnchorElement;
 
-        // Skip anchors with target="_blank"
-        if (anchorElement.target === '_blank') return;
+        // Skip anchors with target="_blank" | "_top" | "_parent" | "_self"
+        if (anchorElement.target === '_blank' || anchorElement.target === '_top' || anchorElement.target === '_parent')
+          return;
 
         // Skip anchors with download attribute
         if (anchorElement.hasAttribute('download')) return;
@@ -138,8 +139,10 @@ export const Next13ProgressBar = React.memo(
 
       const handleMutation: MutationCallback = () => {
         const anchorElements = document.querySelectorAll('a');
-        // Skip anchors with target="_blank" and anchors without href
-        const validAnchorELes = Array.from(anchorElements).filter((anchor) => anchor.href);
+        const validAnchorELes = Array.from(anchorElements).filter((anchor) => {
+          if (anchor.href.startsWith('tel:+') || anchor.href.startsWith('mailto:')) return false;
+          return anchor.href && anchor.target !== '_blank';
+        });
         validAnchorELes.forEach((anchor) => anchor.addEventListener('click', handleAnchorClick));
       };
 

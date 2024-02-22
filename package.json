@@ -1,6 +1,6 @@
 {
   "name": "next13-progressbar",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A ProgressBar for next.js >=13 with app directory ",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
