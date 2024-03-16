@@ -141,7 +141,8 @@ export const Next13ProgressBar = React.memo(
         const anchorElements = document.querySelectorAll('a');
         const validAnchorELes = Array.from(anchorElements).filter((anchor) => {
           if (anchor.href.startsWith('tel:+') || anchor.href.startsWith('mailto:')) return false;
-          return anchor.href && anchor.target !== '_blank';
+          if (anchor.target !== '_self' && anchor.target?.trim() !== '') return false;
+          return anchor.href;
         });
         validAnchorELes.forEach((anchor) => anchor.addEventListener('click', handleAnchorClick));
       };

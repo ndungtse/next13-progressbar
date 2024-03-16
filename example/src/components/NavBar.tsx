@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-// import { useRouter } from '../../../dist';
-import { useRouter } from 'next13-progressbar';
+import { useRouter } from '../../../dist';
+// import { useRouter } from 'next13-progressbar';
 
 const NavBar = () => {
   const router = useRouter();
@@ -15,6 +15,9 @@ const NavBar = () => {
       <Link href={'#'}>HashLink</Link>
       <Link href={'/contact/#44'}>HashLink1</Link>
       <Link href={'/search'}>Search</Link>
+      <Link target="_blank" href={'https://nextjs.org/docs?utm_source=next13progressbar'}>
+        External
+      </Link>
       <button onClick={() => router.replace('/about')}>Replace</button>
     </div>
   );
