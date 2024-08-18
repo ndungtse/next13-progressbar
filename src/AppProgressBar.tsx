@@ -112,8 +112,8 @@ export const Next13ProgressBar = React.memo(
       const handleAnchorClick = (event: MouseEvent) => {
         const anchorElement = event.currentTarget as HTMLAnchorElement;
 
-        // Skip anchors with target="_blank" | "_top" | "_parent" | "_self"
-        if (anchorElement.target === '_blank' || anchorElement.target === '_top' || anchorElement.target === '_parent')
+        // Skip anchors with target attribute but different than _self
+        if (anchorElement.target !== '_self' && anchorElement.target?.trim() !== '')
           return;
 
         // Skip anchors with download attribute
