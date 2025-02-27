@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import NProgress from 'nprogress';
-import { usePathname, useSearchParams, useRouter as useNextRouter } from 'next/navigation';
-import { Next13ProgressProps } from '.';
 import { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useRouter as useNextRouter, usePathname, useSearchParams } from 'next/navigation';
+import NProgress from 'nprogress';
+import React, { useEffect } from 'react';
+import { Next13ProgressProps } from '.';
 
 type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
 
@@ -150,21 +150,19 @@ export const Next13ProgressBar = React.memo(
       const mutationObserver = new MutationObserver(handleMutation);
       mutationObserver.observe(document, { childList: true, subtree: true });
 
-     
-      window.history.pushState = new Proxy(window.history.pushState, {
-        apply: (target, thisArg, argArray: PushStateInput) => {
-          stopProgress();
-          return target.apply(thisArg, argArray);
-        },
-      });
-      
-      window.history.replaceState = new Proxy(window.history.replaceState, {
-        apply: (target, thisArg, argArray: PushStateInput) => {
-          stopProgress();
-          return target.apply(thisArg, argArray);
-        },
-      });
-      
+      const makeStopProxy = (proxyTarget: any) => {
+        return new Proxy(proxyTarget, {
+          apply: (target, thisArg, argArray: PushStateInput) => {
+            stopProgress();
+            return target.apply(thisArg, argArray);
+          },
+        });
+      };
+
+      window.history.pushState = makeStopProxy(window.history.pushState);
+
+      window.history.replaceState = makeStopProxy(window.history.replaceState);
+
     }, []);
 
     return styles;
