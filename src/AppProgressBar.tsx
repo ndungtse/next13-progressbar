@@ -150,15 +150,20 @@ export const Next13ProgressBar = React.memo(
       const mutationObserver = new MutationObserver(handleMutation);
       mutationObserver.observe(document, { childList: true, subtree: true });
 
-      const proxyStateChange = new Proxy(window.history.pushState, {
+     
+      window.history.pushState = new Proxy(window.history.pushState, {
         apply: (target, thisArg, argArray: PushStateInput) => {
           stopProgress();
           return target.apply(thisArg, argArray);
         },
       });
-
-      window.history.pushState = proxyStateChange;
-      window.history.replaceState = proxyStateChange;
+      
+      window.history.replaceState = new Proxy(window.history.replaceState, {
+        apply: (target, thisArg, argArray: PushStateInput) => {
+          stopProgress();
+          return target.apply(thisArg, argArray);
+        },
+      });
       
     }, []);
 
