@@ -15,7 +15,7 @@ function isSameUrl(target: URL) {
 }
 
 export const Next13ProgressBar = React.memo(
-  ({ color = '#0A2FFF', height = '2px', options, showOnShallow = false, delay = 0, style }: Next13ProgressProps) => {
+  ({ color = '#0A2FFF', height = '2px', options, delay = 0, style }: Next13ProgressProps) => {
     const styles = (
       <style>
         {style ||
@@ -107,6 +107,7 @@ export const Next13ProgressBar = React.memo(
 
     useEffect(() => {
       let timer: ReturnType<typeof setTimeout>;
+      let mounted = true;
 
       const startProgress = () => {
         timer = setTimeout(NProgress.start, delay);
@@ -117,58 +118,54 @@ export const Next13ProgressBar = React.memo(
         NProgress.done();
       };
 
-      const handleAnchorClick = (event: MouseEvent) => {
-        const anchorElement = event.currentTarget as HTMLAnchorElement;
-
-        // Skip anchors with target attribute but different than _self
-        if (anchorElement.target !== '_self' && anchorElement.target?.trim() !== '')
-          return;
-
-        // Skip anchors with download attribute
-        if (anchorElement.hasAttribute('download')) return;
-
-        // target url without hash removed
-        const targetUrl = new URL(anchorElement.href);
-        const currentUrl = new URL(location.href);
-
-        // check if search params changed
-        const hasSearchParams = targetUrl?.searchParams?.toString() !== currentUrl?.searchParams?.toString();
-        const paramsChanged = hasSearchParams && targetUrl?.search !== currentUrl?.search;
-        const isSameUrl = targetUrl?.pathname === currentUrl?.pathname && !paramsChanged;
-
+      const handleClick = (event: MouseEvent) => {
         // detect ctrl/cmd option/alt shift click
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
-        if (showOnShallow && isSameUrl) return;
-        if (isSameUrl) return;
+        // SVG <a> elements have no string href and aren't Next.js links
+        const anchor = (event.target as Element | null)?.closest?.('a');
+        if (!(anchor instanceof HTMLAnchorElement) || !anchor.hasAttribute('href')) return;
+
+        // Skip anchors with target attribute but different than _self
+        if (anchor.target.trim() !== '' && anchor.target !== '_self') return;
+
+        // Skip anchors with download attribute
+        if (anchor.hasAttribute('download')) return;
+
+        // Skip mailto:, tel:, sms:, javascript: and other non-page links
+        const targetUrl = new URL(anchor.href);
+        if (targetUrl.protocol !== 'http:' && targetUrl.protocol !== 'https:') return;
+
+        if (isSameUrl(targetUrl)) return;
 
         startProgress();
       };
 
-      const handleMutation: MutationCallback = () => {
-        const anchorElements = document.querySelectorAll('a');
-        const validAnchorELes = Array.from(anchorElements).filter((anchor) => {
-          if (anchor.href.startsWith('tel:+') || anchor.href.startsWith('mailto:')) return false;
-          if (anchor.target !== '_self' && anchor.target?.trim() !== '') return false;
-          return anchor.href;
-        });
-        validAnchorELes.forEach((anchor) => anchor.addEventListener('click', handleAnchorClick));
-      };
-
-      const mutationObserver = new MutationObserver(handleMutation);
-      mutationObserver.observe(document, { childList: true, subtree: true });
+      document.addEventListener('click', handleClick, true);
 
       const stopOn = (method: HistoryMethod) =>
         new Proxy(method, {
           apply: (target, thisArg, argArray: Parameters<HistoryMethod>) => {
-            stopProgress();
+            if (mounted) stopProgress();
             return target.apply(thisArg, argArray);
           },
         });
 
-      window.history.pushState = stopOn(window.history.pushState);
-      window.history.replaceState = stopOn(window.history.replaceState);
-    }, []);
+      const { pushState, replaceState } = window.history;
+      const pushStateProxy = stopOn(pushState);
+      const replaceStateProxy = stopOn(replaceState);
+      window.history.pushState = pushStateProxy;
+      window.history.replaceState = replaceStateProxy;
+
+      return () => {
+        mounted = false;
+        stopProgress();
+        document.removeEventListener('click', handleClick, true);
+        // Next.js wraps history methods too; only restore the ones that are still ours.
+        if (window.history.pushState === pushStateProxy) window.history.pushState = pushState;
+        if (window.history.replaceState === replaceStateProxy) window.history.replaceState = replaceState;
+      };
+    }, [delay]);
 
     return styles;
   },
