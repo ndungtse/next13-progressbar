@@ -76,13 +76,16 @@ jobs:
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      # Build with the repo's toolchain before swapping in the Next.js version under test
+      - name: Build Package
+        run: pnpm build
       - name: Install Next.js ${{ matrix.next }}
         if: matrix.install
         run: pnpm add --save-dev ${{ matrix.install }}
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium
       - name: Test against next build
-        run: pnpm test:e2e
+        run: pnpm exec playwright test
       - name: Test against next dev (Strict Mode)
         run: pnpm exec playwright test
         env:
