@@ -6,12 +6,11 @@ import withSuspense from './WithSuspense';
 export interface Next13ProgressProps {
   /**
    * The color of the bar.
-   * @default "#29D"
+   * @default "#0A2FFF"
    */
   color?: string;
   /**
-   * The start position of the bar.
-   * @default 0.3
+   * @deprecated Has no effect. Use `options={{ minimum: 0.3 }}` to set where the bar starts.
    */
   startPosition?: number;
   /**
@@ -20,18 +19,17 @@ export interface Next13ProgressProps {
    */
   delay?: number;
   /**
-   * The stop delay in milliseconds.
-   * @default 200
+   * @deprecated Has no effect.
    */
   stopDelayMs?: number;
   /**
-   * The height of the bar.
-   * @default 3
+   * The height of the bar. Numbers are in pixels.
+   * @default "2px"
    */
   height?: number | string;
   /**
-   * Whether to show the bar on shallow routes.
-   * @default true
+   * @deprecated Has no effect. The app router has no shallow routing, and the bar is never shown for
+   * navigations to the current URL because nothing would finish it.
    */
   showOnShallow?: boolean;
   /**
@@ -51,6 +49,10 @@ export interface Next13ProgressProps {
    * @default (css) => <style nonce={nonce}>{css}</style>
    */
   transformCSS?: (css: string) => JSX.Element;
+  /**
+   * CSS that replaces the default styles; `color` and `height` are then ignored.
+   * @default undefined
+   */
   style?: string;
 }
 
