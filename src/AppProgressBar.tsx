@@ -98,7 +98,7 @@ export const Next13ProgressBar = React.memo(
     }, [pathname, searchParams]);
 
     useEffect(() => {
-      let timer: NodeJS.Timeout;
+      let timer: ReturnType<typeof setTimeout>;
 
       const startProgress = () => {
         timer = setTimeout(NProgress.start, delay);

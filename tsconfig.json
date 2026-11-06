@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "jsx": "react",
     "target": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -13,7 +13,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "lib": [
       "es2021",
       "DOM"

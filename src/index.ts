@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import * as NProgress from 'nprogress';
 import { Next13ProgressBar as ProgressBar, useRouter } from './AppProgressBar';
 import withSuspense from './WithSuspense';
