@@ -19,12 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'yarn'
-      - run: yarn install
-      - run: yarn lint
+          node-version: 24
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec eslint src/
 
   publish-gpr:
     needs: build
@@ -34,13 +35,14 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://npm.pkg.github.com/
-          cache: 'yarn'
-      - run: yarn install
-      - run: yarn run prepack
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
       # Authenticate with NPM to enable publishing
 
       - run: npm publish

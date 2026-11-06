@@ -13,7 +13,7 @@
 - [Fix] Types work with `@types/react` 19 and no longer import from `next/dist` internals (#14, #18).
 - [Feat] The bundle is marked `'use client'`, so the bar can be rendered directly in a server layout.
 - [Ref] Default CSS is minified (#30). `startPosition`, `stopDelayMs` and `showOnShallow` are deprecated; they never had an effect.
-- [Chore] Tested in CI against Next.js 14, 15 and 16 with Playwright. Dev dependencies updated (Next 16, React 19, TypeScript 6, ESLint 10, tsup 8.5); `prop-types` dependency removed.
+- [Chore] Tested in CI against Next.js 14, 15 and 16 with Playwright. Dev dependencies updated (Next 16, React 19, TypeScript 6, ESLint 10, tsup 8.5); `prop-types` dependency removed. The repository now uses pnpm instead of yarn.
 
 ## v1.1.3 -> v1.2.0
 

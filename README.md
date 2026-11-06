@@ -130,6 +130,14 @@ If not found check tags versions tree's Readme of the older version.
 
 Any Contribution of any kind are appreciated. You can start by forking this repository and make your changes then submit a pull request
 
+The repository uses [pnpm](https://pnpm.io) (the version is pinned in `package.json`, so `corepack enable` picks it up):
+
+```bash
+pnpm install
+pnpm build
+pnpm test:e2e   # Playwright tests against the fixture app in e2e/app
+```
+
 ## Author
 
 - [Ndungutse Charles](https://github.com/NdungutseCharles103)

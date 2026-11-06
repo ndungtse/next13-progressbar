@@ -6,11 +6,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup",
-    "prepack": "npm run build",
+    "prepack": "pnpm run build",
     "lint": "eslint --fix --cache src/ e2e/ playwright.config.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "typecheck": "tsc -p tsconfig.json",
-    "test:e2e": "npm run build && playwright test"
+    "test:e2e": "pnpm run build && playwright test"
   },
   "peerDependencies": {
     "next": ">= 13.0.0",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.65.0",
+    "@playwright/test": "^1.64.1",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -55,5 +55,6 @@
     "dist/**/*.js*",
     "dist/**/*.mjs*",
     "dist/**/*.d*"
-  ]
+  ],
+  "packageManager": "pnpm@12.15.0"
 }
