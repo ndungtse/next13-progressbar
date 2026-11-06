@@ -5,7 +5,7 @@ import { Next13ProgressProps } from '.';
 
 type AppRouter = ReturnType<typeof useNextRouter>;
 type NavigateOptions = Parameters<AppRouter['push']>[1];
-type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
+type HistoryMethod = typeof window.history.pushState;
 
 /** Same page and same query: Next won't change pathname/searchParams, so a started bar would never finish. */
 function isSameUrl(target: URL) {
@@ -158,16 +158,16 @@ export const Next13ProgressBar = React.memo(
       const mutationObserver = new MutationObserver(handleMutation);
       mutationObserver.observe(document, { childList: true, subtree: true });
 
-      const proxyStateChange = new Proxy(window.history.pushState, {
-        apply: (target, thisArg, argArray: PushStateInput) => {
-          stopProgress();
-          return target.apply(thisArg, argArray);
-        },
-      });
+      const stopOn = (method: HistoryMethod) =>
+        new Proxy(method, {
+          apply: (target, thisArg, argArray: Parameters<HistoryMethod>) => {
+            stopProgress();
+            return target.apply(thisArg, argArray);
+          },
+        });
 
-      window.history.pushState = proxyStateChange;
-      window.history.replaceState = proxyStateChange;
-      
+      window.history.pushState = stopOn(window.history.pushState);
+      window.history.replaceState = stopOn(window.history.replaceState);
     }, []);
 
     return styles;
