@@ -9,4 +9,6 @@ export const tsup: Options = {
   minify: true,
   sourcemap: true,
   format: ['cjs'],
+  // Lets server components (e.g. a root layout) render the bar without a client wrapper
+  banner: { js: "'use client';" },
 };
