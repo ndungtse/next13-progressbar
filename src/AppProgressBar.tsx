@@ -1,10 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import NProgress from 'nprogress';
 import { usePathname, useSearchParams, useRouter as useNextRouter } from 'next/navigation';
 import { Next13ProgressProps } from '.';
-import { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
+type AppRouter = ReturnType<typeof useNextRouter>;
+type NavigateOptions = Parameters<AppRouter['push']>[1];
 type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
+
+/** Same page and same query: Next won't change pathname/searchParams, so a started bar would never finish. */
+function isSameUrl(target: URL) {
+  return (
+    target.origin === location.origin && target.pathname === location.pathname && target.search === location.search
+  );
+}
 
 export const Next13ProgressBar = React.memo(
   ({ color = '#0A2FFF', height = '2px', options, showOnShallow = false, delay = 0, style }: Next13ProgressProps) => {
@@ -167,26 +175,21 @@ export const Next13ProgressBar = React.memo(
   () => true
 );
 
-export function useRouter() {
+export function useRouter(): AppRouter {
   const router = useNextRouter();
-  const pathname = usePathname();
 
-  function push(href: string, options?: NavigateOptions) {
-    const targetUrl = new URL(href, location.href);
-    const currentUrl = new URL(location.href);
-    const hasSearchParams = targetUrl?.searchParams?.toString() !== currentUrl?.searchParams?.toString();
-    const paramsChanged = hasSearchParams && targetUrl?.search !== currentUrl?.search;
-    if (targetUrl.pathname === pathname && !paramsChanged) return Promise.resolve(true);
-    NProgress.start();
-    return router.push(href, options);
-  }
+  return useMemo(() => {
+    // Always let Next navigate; only decide whether to show the bar.
+    function push(href: string, options?: NavigateOptions) {
+      if (!isSameUrl(new URL(href, location.href))) NProgress.start();
+      return router.push(href, options);
+    }
 
-  function replace(href: string, options?: NavigateOptions) {
-    const targetUrl = new URL(href, location.href);
-    if (targetUrl.pathname === pathname) return Promise.resolve(true);
-    NProgress.start();
-    return router.replace(href, options);
-  }
+    function replace(href: string, options?: NavigateOptions) {
+      if (!isSameUrl(new URL(href, location.href))) NProgress.start();
+      return router.replace(href, options);
+    }
 
-  return { ...router, push, replace };
+    return { ...router, push, replace };
+  }, [router]);
 }
