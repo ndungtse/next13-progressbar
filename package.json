@@ -7,9 +7,10 @@
   "scripts": {
     "build": "tsup",
     "prepack": "npm run build",
-    "lint": "eslint --fix --cache src/",
+    "lint": "eslint --fix --cache src/ e2e/ playwright.config.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "test:e2e": "npm run build && playwright test"
   },
   "peerDependencies": {
     "next": ">= 13.0.0",

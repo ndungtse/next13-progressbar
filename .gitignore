@@ -24,3 +24,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+# e2e
+/test-results
+/playwright-report
+e2e/app/next-env.d.ts
+e2e/app/AGENTS.md
