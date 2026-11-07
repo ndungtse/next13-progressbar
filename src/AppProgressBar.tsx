@@ -1,92 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import NProgress from 'nprogress';
 import { usePathname, useSearchParams, useRouter as useNextRouter } from 'next/navigation';
 import { Next13ProgressProps } from '.';
-import { NavigateOptions } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-type PushStateInput = [data: any, unused: string, url?: string | URL | null | undefined];
+type AppRouter = ReturnType<typeof useNextRouter>;
+type NavigateOptions = Parameters<AppRouter['push']>[1];
+type HistoryMethod = typeof window.history.pushState;
+
+/** Same page and same query: Next won't change pathname/searchParams, so a started bar would never finish. */
+function isSameUrl(target: URL) {
+  return (
+    target.origin === location.origin && target.pathname === location.pathname && target.search === location.search
+  );
+}
+
+const defaultCss = (color: string, height: string) =>
+  [
+    '#nprogress{pointer-events:none}',
+    `#nprogress .bar{background:${color};position:fixed;z-index:1031;top:0;left:0;width:100%;height:${height}}`,
+    `#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px ${color},0 0 5px ${color};opacity:1;transform:rotate(3deg) translate(0,-4px)}`,
+    '#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}',
+    `#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:${color};border-left-color:${color};border-radius:50%;animation:nprogress-spinner 400ms linear infinite}`,
+    '.nprogress-custom-parent{overflow:hidden;position:relative}',
+    '.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}',
+    '@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}',
+  ].join('');
 
 export const Next13ProgressBar = React.memo(
-  ({ color = '#0A2FFF', height = '2px', options, showOnShallow = false, delay = 0, style }: Next13ProgressProps) => {
-    const styles = (
-      <style>
-        {style ||
-          `
-          #nprogress {
-            pointer-events: none;
-          }
-          
-          #nprogress .bar {
-            background: ${color};
-          
-            position: fixed;
-            z-index: 1031;
-            top: 0;
-            left: 0;
-          
-            width: 100%;
-            height: ${height};
-          }
-          
-          /* Fancy blur effect */
-          #nprogress .peg {
-            display: block;
-            position: absolute;
-            right: 0px;
-            width: 100px;
-            height: 100%;
-            box-shadow: 0 0 10px ${color}, 0 0 5px ${color};
-            opacity: 1.0;
-          
-            -webkit-transform: rotate(3deg) translate(0px, -4px);
-                -ms-transform: rotate(3deg) translate(0px, -4px);
-                    transform: rotate(3deg) translate(0px, -4px);
-          }
-          
-          /* Remove these to get rid of the spinner */
-          #nprogress .spinner {
-            display: block;
-            position: fixed;
-            z-index: 1031;
-            top: 15px;
-            right: 15px;
-          }
-          
-          #nprogress .spinner-icon {
-            width: 18px;
-            height: 18px;
-            box-sizing: border-box;
-          
-            border: solid 2px transparent;
-            border-top-color: ${color};
-            border-left-color: ${color};
-            border-radius: 50%;
-          
-            -webkit-animation: nprogress-spinner 400ms linear infinite;
-                    animation: nprogress-spinner 400ms linear infinite;
-          }
-          
-          .nprogress-custom-parent {
-            overflow: hidden;
-            position: relative;
-          }
-          
-          .nprogress-custom-parent #nprogress .spinner,
-          .nprogress-custom-parent #nprogress .bar {
-            position: absolute;
-          }
-          
-          @-webkit-keyframes nprogress-spinner {
-            0%   { -webkit-transform: rotate(0deg); }
-            100% { -webkit-transform: rotate(360deg); }
-          }
-          @keyframes nprogress-spinner {
-            0%   { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-    );
+  ({ color = '#0A2FFF', height = '2px', options, delay = 0, style, nonce, transformCSS }: Next13ProgressProps) => {
+    const css = style || defaultCss(color, typeof height === 'number' ? `${height}px` : height);
+    const styles = transformCSS ? transformCSS(css) : <style nonce={nonce}>{css}</style>;
 
     NProgress.configure(options || {});
 
@@ -98,7 +41,8 @@ export const Next13ProgressBar = React.memo(
     }, [pathname, searchParams]);
 
     useEffect(() => {
-      let timer: NodeJS.Timeout;
+      let timer: ReturnType<typeof setTimeout>;
+      let mounted = true;
 
       const startProgress = () => {
         timer = setTimeout(NProgress.start, delay);
@@ -109,84 +53,75 @@ export const Next13ProgressBar = React.memo(
         NProgress.done();
       };
 
-      const handleAnchorClick = (event: MouseEvent) => {
-        const anchorElement = event.currentTarget as HTMLAnchorElement;
-
-        // Skip anchors with target attribute but different than _self
-        if (anchorElement.target !== '_self' && anchorElement.target?.trim() !== '')
-          return;
-
-        // Skip anchors with download attribute
-        if (anchorElement.hasAttribute('download')) return;
-
-        // target url without hash removed
-        const targetUrl = new URL(anchorElement.href);
-        const currentUrl = new URL(location.href);
-
-        // check if search params changed
-        const hasSearchParams = targetUrl?.searchParams?.toString() !== currentUrl?.searchParams?.toString();
-        const paramsChanged = hasSearchParams && targetUrl?.search !== currentUrl?.search;
-        const isSameUrl = targetUrl?.pathname === currentUrl?.pathname && !paramsChanged;
-
+      const handleClick = (event: MouseEvent) => {
         // detect ctrl/cmd option/alt shift click
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
-        if (showOnShallow && isSameUrl) return;
-        if (isSameUrl) return;
+        // SVG <a> elements have no string href and aren't Next.js links
+        const anchor = (event.target as Element | null)?.closest?.('a');
+        if (!(anchor instanceof HTMLAnchorElement) || !anchor.hasAttribute('href')) return;
+
+        // Skip anchors with target attribute but different than _self
+        if (anchor.target.trim() !== '' && anchor.target !== '_self') return;
+
+        // Skip anchors with download attribute
+        if (anchor.hasAttribute('download')) return;
+
+        // Skip mailto:, tel:, sms:, javascript: and other non-page links
+        const targetUrl = new URL(anchor.href);
+        if (targetUrl.protocol !== 'http:' && targetUrl.protocol !== 'https:') return;
+
+        if (isSameUrl(targetUrl)) return;
 
         startProgress();
       };
 
-      const handleMutation: MutationCallback = () => {
-        const anchorElements = document.querySelectorAll('a');
-        const validAnchorELes = Array.from(anchorElements).filter((anchor) => {
-          if (anchor.href.startsWith('tel:+') || anchor.href.startsWith('mailto:')) return false;
-          if (anchor.target !== '_self' && anchor.target?.trim() !== '') return false;
-          return anchor.href;
+      document.addEventListener('click', handleClick, true);
+
+      const stopOn = (method: HistoryMethod) =>
+        new Proxy(method, {
+          apply: (target, thisArg, argArray: Parameters<HistoryMethod>) => {
+            if (mounted) stopProgress();
+            return target.apply(thisArg, argArray);
+          },
         });
-        validAnchorELes.forEach((anchor) => anchor.addEventListener('click', handleAnchorClick));
+
+      const { pushState, replaceState } = window.history;
+      const pushStateProxy = stopOn(pushState);
+      const replaceStateProxy = stopOn(replaceState);
+      window.history.pushState = pushStateProxy;
+      window.history.replaceState = replaceStateProxy;
+
+      return () => {
+        mounted = false;
+        stopProgress();
+        document.removeEventListener('click', handleClick, true);
+        // Next.js wraps history methods too; only restore the ones that are still ours.
+        if (window.history.pushState === pushStateProxy) window.history.pushState = pushState;
+        if (window.history.replaceState === replaceStateProxy) window.history.replaceState = replaceState;
       };
-
-      const mutationObserver = new MutationObserver(handleMutation);
-      mutationObserver.observe(document, { childList: true, subtree: true });
-
-      const proxyStateChange = new Proxy(window.history.pushState, {
-        apply: (target, thisArg, argArray: PushStateInput) => {
-          stopProgress();
-          return target.apply(thisArg, argArray);
-        },
-      });
-
-      window.history.pushState = proxyStateChange;
-      window.history.replaceState = proxyStateChange;
-      
-    }, []);
+    }, [delay]);
 
     return styles;
   },
   () => true
 );
 
-export function useRouter() {
+export function useRouter(): AppRouter {
   const router = useNextRouter();
-  const pathname = usePathname();
 
-  function push(href: string, options?: NavigateOptions) {
-    const targetUrl = new URL(href, location.href);
-    const currentUrl = new URL(location.href);
-    const hasSearchParams = targetUrl?.searchParams?.toString() !== currentUrl?.searchParams?.toString();
-    const paramsChanged = hasSearchParams && targetUrl?.search !== currentUrl?.search;
-    if (targetUrl.pathname === pathname && !paramsChanged) return Promise.resolve(true);
-    NProgress.start();
-    return router.push(href, options);
-  }
+  return useMemo(() => {
+    // Always let Next navigate; only decide whether to show the bar.
+    function push(href: string, options?: NavigateOptions) {
+      if (!isSameUrl(new URL(href, location.href))) NProgress.start();
+      return router.push(href, options);
+    }
 
-  function replace(href: string, options?: NavigateOptions) {
-    const targetUrl = new URL(href, location.href);
-    if (targetUrl.pathname === pathname) return Promise.resolve(true);
-    NProgress.start();
-    return router.replace(href, options);
-  }
+    function replace(href: string, options?: NavigateOptions) {
+      if (!isSameUrl(new URL(href, location.href))) NProgress.start();
+      return router.replace(href, options);
+    }
 
-  return { ...router, push, replace };
+    return { ...router, push, replace };
+  }, [router]);
 }

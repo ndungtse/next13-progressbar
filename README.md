@@ -27,7 +27,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {children}
-      <Next13ProgressBar height="4px" color="#0A2FFF" options={{ showSpinner: true }} showOnShallow />
+      <Next13ProgressBar height="4px" color="#0A2FFF" options={{ showSpinner: true }} />
     </>
   );
 };
@@ -51,7 +51,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
+The package is marked `'use client'`, so you can also render `<Next13ProgressBar />` directly in `layout.tsx` without a providers file.
+
 By default all `a` tags are handled by `next/link` so you don't need to do anything.
+
+For programmatic navigation, use `useRouter` from this package instead of `next/navigation`. Its `push` and `replace` navigate exactly like Next's; they also show the bar when the URL changes.
 
 ```jsx
 import Link from 'next/link';
@@ -75,21 +79,21 @@ const NavBar = () => {
 If no props are passed to `<Next13ProgressBar />`, below is the default configuration applied.
 
 ```jsx
-<Next13ProgressBar color="#29D" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+<Next13ProgressBar color="#0A2FFF" height="2px" delay={0} />
 ```
 
 - `color`: to change the default color of progressbar. You can also use `rgb(,,)` or `rgba(,,,)`.
-- `startPosition`: to set the default starting position : `0.3 = 30%`.
 - `delay`: time for delay to start progressbar in `ms`.
-- `stopDelayMs`: time for delay to stop progressbar in `ms`.
-- `height`: height of progressbar in `px`.
-- `showOnShallow`: You can choose whether you want the progressbar to be displayed if you're using shallow routing. It takes a boolean. Learn more about shallow routing [in Next.js docs](https://nextjs.org/docs/routing/shallow-routing).
+- `height`: height of progressbar. A number is in `px` (`height={3}`); a string is used as is (`height="0.25rem"`).
+- `options`: [NProgress options](https://github.com/rstacruz/nprogress#configuration), e.g. `{ showSpinner: false, minimum: 0.3 }`.
+
+`startPosition`, `stopDelayMs` and `showOnShallow` are deprecated and have no effect. Use `options={{ minimum: 0.3 }}` in place of `startPosition`.
 
 ### Advanced Config
 
 #### Adding nonce
 
-We use internal css in this package. If you are using csp, you can add nonce to the `<style>` tag by providing `nonce` prop to `<NProvider />` component.
+We use internal css in this package. If you are using csp, you can add nonce to the `<style>` tag by providing `nonce` prop to `<Next13ProgressBar />` component.
 
 ```jsx
 <Next13ProgressBar nonce="my-nonce" />
@@ -109,6 +113,14 @@ You can pass custom css to the progressbar by using `style` prop.
 />
 ```
 
+#### Custom style tag
+
+`transformCSS` receives the CSS and returns the element that renders it, in place of the default `<style>` tag.
+
+```jsx
+<Next13ProgressBar transformCSS={(css) => <style data-progressbar>{css}</style>} />
+```
+
 ### Older Versions
 
 Check Branches with `v` prefix for older docs of the package.
@@ -117,6 +129,14 @@ If not found check tags versions tree's Readme of the older version.
 ## Contributing
 
 Any Contribution of any kind are appreciated. You can start by forking this repository and make your changes then submit a pull request
+
+The repository uses [pnpm](https://pnpm.io) (the version is pinned in `package.json`, so `corepack enable` picks it up):
+
+```bash
+pnpm install
+pnpm build
+pnpm test:e2e   # Playwright tests against the fixture app in e2e/app
+```
 
 ## Author
 
