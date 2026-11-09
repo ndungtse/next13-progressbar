@@ -1,6 +1,6 @@
 # Changelogs
 
-## Unreleased
+## v1.2.2 -> v1.3.0
 
 - [Fix] `useRouter().replace()` silently did nothing when the target had the same pathname (e.g. `/?tab=1` → `/?tab=2`). `push` and `replace` now always hand the navigation to Next and only decide whether to show the bar.
 - [Fix] `history.replaceState` was patched with the `pushState` proxy (unreleased regression from #32), so every replace added a history entry.
